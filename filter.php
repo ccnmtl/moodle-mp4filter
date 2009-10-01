@@ -34,7 +34,7 @@ function mp4filter_filter($courseid, $text) {
         //Filter for MP4
         //$search = '/<a.*?href="([^<]+\.mp4)(\?d=([\d]{1,4}%?)x([\d]{1,4}%?))?"[^>]*>.*?<\/a>/is';
         //$search = '/<a.*?href="([^<]+\.mp4)"[^>]*>.*?<\/a>/is';
-        $search = '#\[mp4\](http://.+\.mp4)\[mp4\]#is';
+        $search = '#\[mp4\](http://.*?\.mp4)\[mp4\]#i';
 
         $newtext = preg_replace_callback($search, 'mediaplugin_filter_mp4_callback', $newtext);
 	
@@ -63,7 +63,7 @@ function mediaplugin_filter_mp4_callback($link) {
 <script type="text/javascript" src="'.$CFG->wwwroot.'/filter/mp4filter/swfobject.js"></script> 
 <div class="mediaplugin mediaplugin_mp4" id="'.$id.'">
 <!-- fallback message -->
-<img height="360" width="640" src="http://ccnmtl.columbia.edu/broadcast/projects/global_classroom/jfanzo.jpg" />
+<img height="360" width="640" src="'.$imageurl.'" />
 <!-- you *must* offer a download link as they may be able to play the file locally -->
       <p> <strong>No video playback capabilities detected.</strong> Why not try to download the file instead?<br /> 
 	  <a href=".$url.">MPEG4 / H.264 - (Windows / Mac compatible)</a> | </p>
