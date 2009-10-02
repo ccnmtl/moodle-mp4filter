@@ -66,7 +66,8 @@ function mediaplugin_filter_mp4_callback($link) {
 <img height="360" width="640" src="'.$imageurl.'" />
 <!-- you *must* offer a download link as they may be able to play the file locally -->
       <p> <strong>No video playback capabilities detected.</strong> Why not try to download the file instead?<br /> 
-	  <a href=".$url.">MPEG4 / H.264 - (Windows / Mac compatible)</a> | </p>
+	  <a href=".$url.">MPEG4 / H.264 - (Windows / Mac compatible)</a> (Right-click or \
+Control-click and "Save / Download As...") | </p>
 		To play the video here in the webpage, please do one of the following: </p>
 <ul>	
        <li>Upgrade to <a href="http://getfirefox.com">Firefox v3.5</a>, or <a href="http://apple.com/safari">Safari v4</a></li>
@@ -88,7 +89,7 @@ function mediaplugin_filter_mp4_callback($link) {
 <p>
     <a href="'.$qturl.'">Streaming version of this lecture</a> is also available for viewing. (Opens in <a href="http://www.apple.com/quicktime/download/">QuickTime Player</a> - ver. 7.6 or under required)
 <br />
-		       																		Or, try to download the file: <a href="'.$url.'">MPEG4 / H.264 - (Windows / Mac compatible)</a> (Control-click and "Save As...")</p>
+		       																		Or, try to download the file: <a href="'.$url.'">MPEG4 / H.264 - (Windows / Mac compatible)</a> (Right-click or Control-click and "Save / Download As...")</p>
 </ul>
 </p>
 
