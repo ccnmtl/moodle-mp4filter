@@ -80,6 +80,7 @@ Control-click and "Save / Download As...") | </p>
     so.addParam("allowfullscreen","true");
     so.addParam("allowscriptaccess","always");
     so.addParam("wmode","opaque");
+    so.addVariable('plugins', 'googlytics-1');
     so.addVariable("file","'.$url.'");
     so.addVariable("image","'.$imageurl.'");
     so.write("'.$id.'");
