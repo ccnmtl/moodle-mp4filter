@@ -55,6 +55,9 @@ function mediaplugin_filter_mp4_callback($link) {
     $width  = empty($link[2]) ? '480' : $link[2];
     $height = empty($link[3]) ? '272' : $link[3];
 
+    // controller (toolbar) height
+    $height = intval($height) + 25;
+
     $url = addslashes_js($link[1]);
     // our contract is that urls will always have accompanying images 
     $imageurl = str_replace('.mp4', '.jpg', $url);
