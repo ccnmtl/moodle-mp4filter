@@ -35,10 +35,13 @@ function mp4filter_filter($courseid, $text) {
         //$search = '/<a.*?href="([^<]+\.mp4)(\?d=([\d]{1,4}%?)x([\d]{1,4}%?))?"[^>]*>.*?<\/a>/is';
         //$search = '/<a.*?href="([^<]+\.mp4)"[^>]*>.*?<\/a>/is';
         //$search = '#\[mp4\](http://.*?\.mp4)\[mp4\]#i';
-	$search = '#\[mp4\](http://.*?\.mp4)[\[w\]]*(\d*)[\[h\]]*(\d*)\[mp4\]#i';
 
+	$search = '#\[mp4\](http://.*?\.mp4)[\[w\]]*(\d*)[\[h\]]*(\d*)\[mp4\]#i';
         $newtext = preg_replace_callback($search, 'mediaplugin_filter_mp4_callback', $newtext);
-	
+
+	$search = '#\[flv\](http://.*?\.flv)[\[w\]]*(\d*)[\[h\]]*(\d*)\[flv\]#i';
+        $newtext = preg_replace_callback($search, 'mediaplugin_filter_flv_callback', $newtext);
+
     return $newtext;
 }
 
@@ -46,11 +49,19 @@ function mp4filter_filter($courseid, $text) {
 /// callback filter functions
 
 function mediaplugin_filter_mp4_callback($link) {
+  return mediaplugin_filter_callback($link, "mp4");
+}
+
+function mediaplugin_filter_flv_callback($link) {
+  return mediaplugin_filter_callback($link, "flv");
+}
+
+function mediaplugin_filter_callback($link, $type) {
     global $CFG;
 
     static $count = 0;
     $count++;
-    $id = 'filter_mp4_'.time().$count; //we need something unique because it might be stored in text cache
+    $id = 'filter_'.$type.'_'.time().$count; //we need something unique because it might be stored in text cache
 
     $width  = empty($link[2]) ? '480' : $link[2];
     $height = empty($link[3]) ? '272' : $link[3];
@@ -59,10 +70,14 @@ function mediaplugin_filter_mp4_callback($link) {
     $height = intval($height) + 25;
 
     $url = addslashes_js($link[1]);
-    // our contract is that urls will always have accompanying images 
-    $imageurl = str_replace('.mp4', '.jpg', $url);
-    $qturl    = str_replace('.mp4', '.qtl', $url);
+    $extn = '.'.$type;
 
+    // our contract is that urls will always have accompanying images 
+    $imageurl = str_replace($extn, '.jpg', $url);
+    $qturl    = str_replace($extn, '.qtl', $url);
+
+    // note that we do NOT use class=mediaplugin_flv for flv videos; there's a css rule elsewhere
+    // that makes it all funky for some reason
     $script = '
 <center>
 <script type="text/javascript" src="http://ccnmtl.columbia.edu/remote/flowplayer-3.2.2/flowplayer-3.2.2.%s"></script>
@@ -149,7 +164,8 @@ if ((!window.flashembed || !window.ccnmtl_flowplayer) && window.attachEvent) {
 </center>
 ';
     $js_file = "ccnmtl.js";
-    $provider = "mp4";
+
+    $provider = $type;
     $autostart = "false";
     $caption_plugin = '';
     $flash_provider = (($provider=='flv')?' "provider":"pseudo", ':'');
