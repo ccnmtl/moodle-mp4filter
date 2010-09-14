@@ -76,6 +76,12 @@ function mediaplugin_filter_callback($link, $type) {
     $imageurl = str_replace($extn, '.jpg', $url);
     $qturl    = str_replace($extn, '.qtl', $url);
 
+    if ($type == "flv") {
+      $mp4url = str_replace($extn, '.mp4', $url);
+    } else {
+      $mp4url = $url;
+    }
+
     // note that we do NOT use class=mediaplugin_flv for flv videos; there's a css rule elsewhere
     // that makes it all funky for some reason
     $script = '
@@ -93,11 +99,15 @@ function init_ccnmtl_flowplayer_%s() {
   var autostart = ("%s"=="true");
   var width = %d;
   var height = %d;
+  var mp4url = "'.$mp4url.'";
 
   document.getElementById(id).innerHTML = "";
   var flash_enabled = flashembed.isSupported([9]);
   if ( ! flash_enabled) {
     var vidTag = document.createElement("video");
+    if( provider == "flv" ) {
+      provider = "mp4"; public_url = mp4url;
+    }
     if (provider == "mp4") {
         if (vidTag.canPlayType && vidTag.canPlayType("video/mp4")) {
            vidTag.src = public_url;
@@ -158,7 +168,7 @@ if ((!window.flashembed || !window.ccnmtl_flowplayer) && window.attachEvent) {
   ver. 7.6 or under required)
   <br />
   Or, try to download the file:
-  <a href="'.$url.'">MPEG4 / H.264 - (Windows / Mac compatible)</a>
+  <a href="'.$mp4url.'">MPEG4 / H.264 - (Windows / Mac compatible)</a>
   (Right-click or Control-click and "Save / Download As...")</p>
 </p>
 </center>
