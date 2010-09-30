@@ -76,7 +76,7 @@ function mediaplugin_filter_callback($link, $type) {
       $pos = strpos($url, "/OPTIONS/");
       if( $pos ) {
         $direct_url = substr($url, $pos+9);
-        $direct_url = "http://ccnmtl.columbia.edu/broadcast/projects/" . $direct_url;        
+        $direct_url = "http://ccnmtl.columbia.edu/broadcast/" . $direct_url;        
       }
       $mp4url = str_replace($extn, '.mp4', $direct_url);
     } else {
