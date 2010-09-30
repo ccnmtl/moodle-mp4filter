@@ -17,7 +17,6 @@
 
 require_once($CFG->libdir.'/filelib.php');
 
-
 function mp4filter_filter($courseid, $text) {
     global $CFG;
 
@@ -72,15 +71,21 @@ function mediaplugin_filter_callback($link, $type) {
     $url = addslashes_js($link[1]);
     $extn = '.'.$type;
 
-    // our contract is that urls will always have accompanying images 
-    $imageurl = str_replace($extn, '.jpg', $url);
-    $qturl    = str_replace($extn, '.qtl', $url);
-
+    $direct_url = $url;
     if ($type == "flv") {
-      $mp4url = str_replace($extn, '.mp4', $url);
+      $pos = strpos($url, "/OPTIONS/");
+      if( $pos ) {
+        $direct_url = substr($url, $pos+9);
+        $direct_url = "http://ccnmtl.columbia.edu/broadcast/projects/" . $direct_url;        
+      }
+      $mp4url = str_replace($extn, '.mp4', $direct_url);
     } else {
       $mp4url = $url;
     }
+
+    // our contract is that urls will always have accompanying images 
+    $imageurl = str_replace($extn, '.jpg', $direct_url);
+    $qturl    = str_replace($extn, '.qtl', $direct_url);
 
     // note that we do NOT use class=mediaplugin_flv for flv videos; there's a css rule elsewhere
     // that makes it all funky for some reason
