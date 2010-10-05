@@ -83,6 +83,8 @@ function mediaplugin_filter_callback($link, $type) {
       $mp4url = $url;
     }
 
+    $mp3_url = str_replace($extn, '.mp3', $direct_url);
+
     // our contract is that urls will always have accompanying images 
     $imageurl = str_replace($extn, '.jpg', $direct_url);
     $qturl    = str_replace($extn, '.qtl', $direct_url);
@@ -174,7 +176,12 @@ if ((!window.flashembed || !window.ccnmtl_flowplayer) && window.attachEvent) {
   <br />
   Or, try to download the file:
   <a href="'.$mp4url.'">MPEG4 / H.264 - (Windows / Mac compatible)</a>
-  (Right-click or Control-click and "Save / Download As...")</p>
+  (Right-click or Control-click and "Save / Download As...")
+</p>
+<p>
+  An audio-only version of this lecture is also available for download:
+  <a href="'.$mp3_url.'">MP3 - (Windows / Mac compatible)</a>
+  (Right-click or Control-click and "Save / Download As...")
 </p>
 </center>
 ';
